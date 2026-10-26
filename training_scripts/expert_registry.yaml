@@ -1,0 +1,40 @@
+# Expert Rollout Data Registry
+# Each entry describes a pre-computed teacher rollout dataset that can be
+# used as expert data via init_expert_files.sh.
+#
+# Usage in launch scripts:
+#   --expert_id <key from this registry>
+#
+# Usage with resolve_expert.py:
+#   python3 resolve_expert.py --list                  # list all experts
+#   python3 resolve_expert.py <expert_id>             # print path
+#   python3 resolve_expert.py <expert_id> --field <f> # print any field
+
+experts:
+
+  # ──────────────────── Qwen3-14B (post-trained thinking model) ────────────────────
+  14b-no-think-16k:
+    teacher_model: Qwen3-14B
+    think_mode: no_think
+    dataset: deepmath
+    num_samples: 6144
+    max_response_length: 16384
+    batch_size: 1024
+    rollout_n: 8
+    engine: vllm
+    path: ${SPEC_DISTILL_EXPERT_DATA_DIR}/deepmath_train_sample_6144_context_4k_Qwen3-14B_max_response4096_batch1024_rollout8_vllm_no_think
+    notes: 14B thinking model, non-think mode, 16k response budget
+
+
+  14b-base-4k:
+    teacher_model: Qwen3-14B-Base
+    think_mode: no_think
+    dataset: deepmath
+    num_samples: 6144
+    context_length: 4096
+    max_response_length: 4096
+    batch_size: 1024
+    rollout_n: 8
+    engine: vllm
+    path: ${SPEC_DISTILL_EXPERT_DATA_DIR}/deepmath_train_sample_6144_context_4k_Qwen3-14B-base_max_response4096_batch1024_rollout8_vllm
+    notes: 14B base model, no-think, 4k response budget
